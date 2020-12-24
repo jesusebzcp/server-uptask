@@ -1,9 +1,11 @@
 const { gql } = require("apollo-server");
 
 const typeDefs = gql`
+  #Types definitions auth
   type Token {
     token: String
   }
+  #Types definitions project
 
   type Project {
     name: String!
@@ -15,15 +17,14 @@ const typeDefs = gql`
     project: String
     status: Boolean
   }
+
+  #Query
   type Query {
     getProjects: [Project]
     getTask(input: ProjectIDInput): [Task]
   }
 
-  input ProjectIDInput {
-    project: String!
-  }
-
+  #Inputs auth
   input UserInput {
     name: String!
     email: String!
@@ -34,9 +35,15 @@ const typeDefs = gql`
     password: String!
   }
 
+  #Inputs projects
+  input ProjectIDInput {
+    project: String!
+  }
   input ProjectInput {
     name: String!
   }
+  #Inputs task
+
   input TaskInput {
     name: String!
     project: String!

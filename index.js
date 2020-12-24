@@ -12,6 +12,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({ req }) => {
+    //Context configurations user global data
     const token = req.headers["authorization"] || "";
     if (token) {
       try {
@@ -20,7 +21,7 @@ const server = new ApolloServer({
           user,
         };
       } catch (error) {
-        console.log(error);
+        console.log("error context jwt", error);
       }
     }
   },
