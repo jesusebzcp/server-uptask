@@ -3,7 +3,8 @@
 
 
 
-#Environment file
+# Environment file
+
 add the .env file to the root folder
 I'll leave an example of the .env file called example.env
 
