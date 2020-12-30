@@ -17,11 +17,17 @@ const typeDefs = gql`
     project: String
     status: Boolean
   }
+  type User {
+    name: String
+    email: String
+    exp: String
+  }
 
   #Query
   type Query {
     getProjects: [Project]
     getTask(input: ProjectIDInput): [Task]
+    getUser(input: InputToken): User
   }
 
   #Inputs auth
@@ -29,6 +35,9 @@ const typeDefs = gql`
     name: String!
     email: String!
     password: String!
+  }
+  input InputToken {
+    token: String!
   }
   input authUser {
     email: String!
@@ -46,12 +55,12 @@ const typeDefs = gql`
 
   input TaskInput {
     name: String!
-    project: String!
+    project: String
   }
 
   type Mutation {
     #User
-    createUser(input: UserInput): String
+    createUser(input: UserInput): Token
     authUser(input: authUser): Token
 
     #Project
