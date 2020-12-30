@@ -7,11 +7,13 @@ const jwt = require("jsonwebtoken");
 
 require("dotenv").config({ path: ".env" });
 
-//Create jwt
+//Create token
 const createToken = (user) => {
-  const { id, email } = user;
-
-  return jwt.sign({ id, email }, process.env.SECRET, { expiresIn: "2h" });
+  const { id, email, name } = user;
+  const token = jwt.sign({ id, email, name }, process.env.SECRET, {
+    expiresIn: "8h",
+  });
+  return token;
 };
 
 const resolvers = {
@@ -27,6 +29,15 @@ const resolvers = {
         .equals(input.project);
 
       return tasks;
+    },
+    getUser: async (_, { input }, ctx) => {
+      const userJwt = jwt.verify(input.token, process.env.SECRET);
+      //console.log(user);
+      //   const user = await User.find({ _id: userJwt.id });
+      console.log("user ==> ", userJwt);
+      //return user;
+
+      return userJwt;
     },
   },
 
@@ -48,7 +59,9 @@ const resolvers = {
         const newUser = new User(input);
         newUser.save();
 
-        return "User create";
+        return {
+          token: createToken(newUser),
+        };
       } catch (error) {
         console.log("error:createUser", error);
       }
